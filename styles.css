@@ -4,7 +4,7 @@ html, body { height: 100%; }
 
 body{
   min-height: 100svh;
-  background:   hsl(285, 75%, 77%);
+  background:   hsl(173, 83%, 40%);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -95,172 +95,63 @@ body{
 
 /* ===== Logos (posición y tamaño) ===== */
 :root{
-  /* Base */
-  --bg-1: #09b29d;       /* teal vivo */
-  --bg-2: #01696a;       /* teal profundo */
-  --mint: #d7f0ea;       /* menta clara */
-  --sand: #ffe7d6;       /* arena suave */
-
-  /* Accentos */
-  --blue: #2563eb;       /* SATA */
-  --purple: #6d28d9;     /* complemento MUCH */
-  --fucsia: #e6007a;     /* acento MUCH */
-
-  /* Texto y superficies */
-  --ink: #0f172a;
-  --ink-soft: #334155;
-  --white: #ffffff;
-  --glass: #ffffff1f;    /* blanco 12% */
-  --glass-strong: #ffffffcc; /* 80% */
-}
-
-* { padding: 0; margin: 0; box-sizing: border-box; }
-html, body { height: 100%; }
-
-body{
-  min-height: 100svh;
-  /* Fondo: degradado sobrio (no compite con logos) + halos suaves */
-  background:
-    radial-gradient(1200px 600px at 15% 5%, rgba(255,255,255,.08), transparent 60%),
-    radial-gradient(900px 500px at 85% 15%, rgba(255,255,255,.06), transparent 55%),
-    linear-gradient(160deg, var(--bg-1), var(--bg-2));
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding:
-    max(8px, env(safe-area-inset-top))
-    max(8px, env(safe-area-inset-right))
-    max(16px, env(safe-area-inset-bottom))
-    max(8px, env(safe-area-inset-left));
-  gap: 14px;
-  color: var(--ink);
-}
-
-/* ===== Contenedor del juego (tarjeta glass suave) ===== */
-.contenedor{
-  width: 100%;
-  max-width: 920px;
-  height: 280px;
-  margin: 0 auto;
-  position: relative;
-  background:
-    linear-gradient(180deg, var(--mint), transparent) var(--sand);
-  transition: background-color 1s linear;
-  overflow: hidden;
-  border-radius: 14px;
-  border: 1px solid rgba(255,255,255,.35);
-  box-shadow:
-    0 18px 50px rgba(0,0,0,.22),
-    inset 0 0 0 1px rgba(255,255,255,.05);
-}
-
-/* Imágenes responsivas básicas */
-.contenedor img,
-.logo-izq, .logo-mid, .logo-der {
-  max-width: 100%;
-  height: auto;
-}
-
-/* Momentos del día (por si usas clases) */
-.mediodia { background-color: #ffdcf3; }
-.tarde    { background-color: #ffadad; }
-.noche    { background-color: #aca8c7; }
-
-/* ===== Dino / Suelo / Obstáculos / Nubes ===== */
-.dino{
-  width: 84px; height: 84px;
-  position: absolute; bottom: 22px; left: 42px; z-index: 2;
-  background: url("dino.png") repeat-x 0 0;
-  background-size: 336px 84px;
-  background-position-x: 0px;
-}
-.dino-corriendo{ animation: animarDino .25s steps(2) infinite; }
-.dino-estrellado{ background-position-x: -252px; }
-
-.suelo{
-  width: 200%; height: 42px;
-  position: absolute; bottom: 0; left: 0;
-  background: url("suelo.png") repeat-x 0 0;
-  background-size: 50% 42px;
-}
-
-.cactus{
-  width: 46px; height: 96px;
-  position: absolute; bottom: 16px; left: 600px; z-index: 1;
-  background: url("cactus1.png") no-repeat;
-}
-.cactus2{ width: 98px; height: 66px; background: url("cactus2.png") no-repeat; }
-
-.nube{
-  width: 92px; height: 26px; position: absolute; z-index: 0;
-  background: url("nube.png") no-repeat; background-size: 92px 26px;
-}
-
-/* ===== Score & Game Over ===== */
-.score{
-  width: 100px; height: 30px; position: absolute; top: 5px; right: 15px; z-index: 10;
-  color: #cc815e; /* tono arena/terracota: combina con el suelo */
-  font-family: Verdana, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
-  font-size: 30px; font-weight: 800; text-align: right;
-  text-shadow: 0 1px 2px rgba(0,0,0,.2);
-}
-
-.game-over{
-  display: none; position: absolute; width: 100%;
-  text-align: center; color: #7e928b; font-size: 30px; font-weight: 800;
-  top: 40%;
-  text-shadow: 0 1px 2px rgba(0,0,0,.2);
-}
-
-/* ===== Logos con “badge” translúcido para legibilidad ===== */
-:root{
-  --game-h: 450px; /* altura virtual del bloque del juego para ubicar los logos */
-  --gap: 16px;     /* separación por encima del borde del juego */
+  --game-h: 450px; /* altura “virtual” del bloque del juego para ubicar los logos */
+  --gap: 14px;     /* separación por encima del borde del juego */
 }
 
 .logo-izq, .logo-mid, .logo-der {
   position: absolute;
   top: max(8px, calc(50% - var(--game-h) / 2 - var(--gap)));
   height: auto;
+  opacity: .95;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,.25));
   z-index: 9999;
-  /* Badge: fondo claro translúcido + borde + blur para que nunca se opaquen */
-  background: var(--glass-strong);
-  backdrop-filter: saturate(1.1) blur(2px);
-  border: 1px solid rgba(0,0,0,.06);
-  border-radius: 14px;
-  padding: 8px 12px;
-  box-shadow: 0 8px 22px rgba(0,0,0,.18);
 }
 
-/* Izquierdo y derecho con mismo ancho */
-.logo-izq { left: 20px;  width: 150px; }
-.logo-der { right: 20px; width: 150px; }
+/* Izquierdo */
+.logo-izq { 
+  left: 20px; 
+  width: 150px;
+}
 
-/* Logo central ligeramente mayor y un poco más arriba */
+/* Derecho */
+.logo-der { 
+  right: 20px; 
+  width: 150px;
+}
+
+/* Nuevo logo central */
 .logo-mid {
   left: 50%;
   transform: translateX(-50%);
   width: 170px;
-  top: calc(max(8px, calc(50% - var(--game-h) / 2 - var(--gap))) - 30px);
+  position: absolute;
+  top: calc(max(8px, calc(50% - var(--game-h) / 2 - var(--gap))) - 20px); 
+  /* ↑ lo sube 12px, puedes ajustar el valor */
 }
 
+/* Ajustes responsivos */
 @media (max-width: 600px){
-  .logo-izq, .logo-der { width: 112px; }
-  .logo-mid { width: 128px; }
+  .logo-izq, .logo-der { width: 110px; }
+  .logo-mid { width: 125px; }
   :root{ --gap: 10px; }
 }
 
-/* ===== Botón “Intentar de nuevo” ===== */
+/* Botón “Intentar de nuevo” */
 .retry-wrap{
   width: 100%;
   max-width: 920px;
-  display: flex; justify-content: center;
-  margin-top: 10px;
-  visibility: hidden; pointer-events: none;
+  display: flex;
+  justify-content: center;
+  margin-top: 8px;
+  visibility: hidden;
+  pointer-events: none;
   min-height: 56px;
 }
-.retry-wrap.show{ visibility: visible; pointer-events: auto; }
+.retry-wrap.show{
+  visibility: visible;
+  pointer-events: auto;
+}
 
 .btn-retry{
   appearance: none; border: 0; cursor: pointer;
@@ -270,37 +161,31 @@ body{
   border-radius: 14px;
   font-weight: 900; font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
   font-size: 1rem;
-  /* Degradado morado-azul que combina con MUCH y SATA */
-  background: linear-gradient(135deg, var(--purple), var(--blue));
-  color: var(--white);
+  background: linear-gradient(135deg, #d946ef, #8b5cf6);
+  color: #fff;
+  box-shadow: 0 10px 24px rgba(139,92,246,.25);
   text-decoration: none;
   min-width: 220px;
-  box-shadow:
-    0 14px 28px rgba(37, 99, 235, .28),
-    0 4px 10px rgba(0,0,0,.20);
-  transition: transform .06s, box-shadow .2s, filter .2s;
-}
-.btn-retry:hover{
-  filter: brightness(1.04);
-  box-shadow:
-    0 18px 36px rgba(37, 99, 235, .32),
-    0 6px 14px rgba(0,0,0,.22);
 }
 .btn-retry:active{ transform: translateY(1px); }
 
-/* ===== Animación del dino ===== */
+/* Animación del dino */
 @keyframes animarDino{
   from{ background-position-x: -84px; }
   to  { background-position-x: -252px; }
 }
 
-/* ===== Overlay Bienvenida (sin cambios de estructura, look unificado) ===== */
+/* ---------- Bienvenida (overlay) ---------- */
 .welcome{
-  position: fixed; inset: 0;
+  position: fixed;
+  inset: 0;
   background: radial-gradient(1200px 600px at 20% 10%, rgba(255,255,255,.06), transparent),
-              linear-gradient(135deg, #00c9b722, #6d28d933);
-  display: none; place-items: center; padding: 16px;
-  z-index: 10000; backdrop-filter: blur(1px);
+              linear-gradient(135deg, #d946ef22, #00c9b722);
+  display: none;
+  place-items: center;
+  padding: 16px;
+  z-index: 10000; /* por encima de logos y juego */
+  backdrop-filter: blur(1px);
 }
 .welcome.show{ display: grid; }
 
@@ -316,80 +201,51 @@ body{
 
 .welcome-logo{
   width: clamp(64px, 12vw, 92px);
-  height: auto; display: block; margin: 0 auto 12px;
+  height: auto;
+  display: block;
+  margin: 0 auto 12px;
   border-radius: 16px;
   box-shadow: 0 6px 18px rgba(0,0,0,.25);
 }
 
 .welcome-title{
   font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
-  font-weight: 900; letter-spacing: .6px;
+  font-weight: 900;
+  letter-spacing: .6px;
   font-size: clamp(28px, 5vw, 44px);
   color: #ffffff;
-  margin: 2px 0 6px; text-shadow: 0 2px 8px rgba(0,0,0,.35);
+  margin: 2px 0 6px;
+  text-shadow: 0 2px 8px rgba(0,0,0,.35);
 }
 
-.welcome-sub{ color: #dbeafe; margin: 0 0 14px; font-size: clamp(14px, 2.6vw, 18px); }
+.welcome-sub{
+  color: #dbeafe;
+  margin: 0 0 14px;
+  font-size: clamp(14px, 2.6vw, 18px);
+}
 
 .btn-play{
   appearance: none; border: 0; cursor: pointer;
-  padding: 14px 18px; min-width: 220px; border-radius: 16px;
-  font-weight: 900; font-size: clamp(16px, 2.8vw, 18px);
+  padding: 14px 18px;
+  min-width: 220px;
+  border-radius: 16px;
+  font-weight: 900;
+  font-size: clamp(16px, 2.8vw, 18px);
   color: #fff;
-  background: linear-gradient(135deg, var(--bg-1), var(--purple));
-  box-shadow: 0 16px 40px rgba(217,70,239,.22), 0 6px 14px rgba(0,0,0,.25);
+  background: linear-gradient(135deg, #00c9b7, #d946ef);
+  box-shadow: 0 16px 40px rgba(217,70,239,.25), 0 6px 14px rgba(0,0,0,.25);
   transition: transform .06s, box-shadow .2s, filter .2s;
 }
 .btn-play:active{ transform: translateY(1px); }
 
-.welcome-tips{ margin-top: 12px; font-size: clamp(12px, 2.2vw, 14px); color: #cbd5e1; }
+.welcome-tips{
+  margin-top: 12px;
+  font-size: clamp(12px, 2.2vw, 14px);
+  color: #cbd5e1;
+}
 
+/* En landscape bajo, compactamos un poco */
 @media (orientation: landscape) and (max-height: 480px){
   .welcome-card{ padding: 16px; border-radius: 18px; }
   .btn-play{ padding: 12px 16px; min-width: 200px; }
-}
-
-/* ========================================================= */
-/* ===================  AÑADIDOS (SOLO)  =================== */
-/* ========================================================= */
-
-/* ====== FIX 1: Juego responsivo sin romper la física ====== */
-.contenedor{
-  width: min(920px, 100%);
-  aspect-ratio: 920 / 280;
-  height: auto;            /* en lugar de height fija */
-}
-
-/* Tipografías escalables en pantallas chicas */
-.score{ font-size: clamp(18px, 5vw, 30px); }
-.game-over{ font-size: clamp(20px, 6vw, 30px); }
-
-/* ====== FIX 2: Logos en fila en móvil (sin absolute) ====== */
-@media (max-width: 768px){
-  body{ text-align: center; }
-
-  .logo-izq, .logo-mid, .logo-der{
-    position: static;          /* quita el absolute */
-    display: inline-block;     /* se alinean en una fila */
-    margin: 6px 8px 2px;
-    width: clamp(96px, 28vw, 150px);
-    padding: 6px 10px;
-    background: var(--glass-strong);
-    backdrop-filter: saturate(1.1) blur(2px);
-    border: 1px solid rgba(0,0,0,.06);
-    border-radius: 12px;
-    box-shadow: 0 8px 22px rgba(0,0,0,.18);
-    vertical-align: middle;
-  }
-
-  .contenedor{ margin-top: 6px; } /* aire entre logos y juego */
-}
-
-/* ====== FIX 3: Ajustes finos en pantallas muy estrechas ====== */
-@media (max-width: 380px){
-  .logo-izq, .logo-mid, .logo-der{
-    width: clamp(88px, 26vw, 120px);
-    margin: 4px 6px 2px;
-    padding: 5px 8px;
-  }
 }
