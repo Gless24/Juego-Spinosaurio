@@ -1,0 +1,151 @@
+/* ===== Base ===== */
+* { margin:0; padding:0; box-sizing:border-box; }
+html, body { height:100%; }
+
+body{
+  min-height:100svh;
+  background:hsl(285, 75%, 77%);
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  gap:10px;
+  padding:
+    max(8px, env(safe-area-inset-top))
+    max(8px, env(safe-area-inset-right))
+    max(16px, env(safe-area-inset-bottom))
+    max(8px, env(safe-area-inset-left));
+}
+
+/* ===== Contenedor responsive con container queries ===== */
+.contenedor{
+  /* Tamaño “marco” flexible */
+  width:min(96vw, 920px);
+  aspect-ratio: 920 / 280;         /* conserva proporción del juego */
+  max-height: min(70svh, 420px);   /* no pasar de cierto alto en móviles */
+  position:relative;
+  margin:0 auto;
+  overflow:hidden;
+  border-radius:14px;
+  background: linear-gradient(#b7d6c7, transparent) #ffe2d1;
+  border:1px solid rgba(255,255,255,.35);
+  box-shadow: 0 18px 50px rgba(0,0,0,.22), inset 0 0 0 1px rgba(255,255,255,.05);
+
+  /* Habilita cqw/cqh para calcular escalas internas */
+  container-type: size;
+
+  /* Escala automática respecto al tamaño base 920×280 */
+  --sx: calc(100cqw / 920);
+  --sy: calc(100cqh / 280);
+  --game-scale: min(var(--sx), var(--sy));
+}
+
+/* ===== Lienzo interno a escala ===== */
+/* ¡No cambies estas medidas! Representan tu “mundo” base */
+.stage{
+  width:920px;
+  height:280px;
+  position:relative;
+  transform: scale(var(--game-scale));
+  transform-origin: top left;
+}
+
+/* Si quieres un suave antialias al escalar píxeles: */
+.stage, .stage * {
+  image-rendering: pixelated;
+}
+
+/* ===== Elementos del juego (igual que tienes, sin cambios de px) ===== */
+.dino{
+  width:84px; height:84px;
+  position:absolute; bottom:22px; left:42px; z-index:2;
+  background:url("dino.png") repeat-x 0 0 / 336px 84px;
+  background-position-x:0px;
+}
+.dino-corriendo{ animation: animarDino .25s steps(2) infinite; }
+.dino-estrellado{ background-position-x:-252px; }
+
+.suelo{
+  width:200%; height:42px;
+  position:absolute; bottom:0; left:0;
+  background:url("suelo.png") repeat-x 0 0 / 50% 42px;
+}
+
+.cactus{ width:46px; height:96px; position:absolute; bottom:16px; left:600px; z-index:1; background:url("cactus1.png") no-repeat; }
+.cactus2{ width:98px; height:66px; background:url("cactus2.png") no-repeat; }
+
+.nube{ width:92px; height:26px; position:absolute; z-index:0; background:url("nube.png") no-repeat; background-size:92px 26px; }
+
+.score{
+  width:100px; height:30px; position:absolute; top:5px; right:15px; z-index:10;
+  color:#d48871; font: 800 30px/1 Verdana, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  text-align:right; text-shadow:0 1px 2px rgba(0,0,0,.2);
+}
+
+.game-over{
+  display:none; position:absolute; width:100%; top:40%;
+  text-align:center; color:#7e928b; font: 800 30px/1 Verdana, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  text-shadow:0 1px 2px rgba(0,0,0,.2);
+}
+
+/* ===== Logos responsivos relativos al contenedor ===== */
+.logo-izq, .logo-mid, .logo-der{
+  position:absolute;
+  z-index:9999;
+  background:#ffffffcc;             /* si quieres: cambia a transparent para quitar “fondito” */
+  border:1px solid rgba(0,0,0,.06);
+  border-radius:14px;
+  padding:8px 12px;
+  box-shadow:0 8px 22px rgba(0,0,0,.18);
+}
+
+/* Los ubicamos dentro de .contenedor como si midiera 920×280 */
+.logo-izq { top: calc(10cqh); left: calc(10cqw); width: clamp(88px, 16cqw, 150px); }
+.logo-der { top: calc(10cqh); right: calc(10cqw); width: clamp(88px, 16cqw, 150px); }
+.logo-mid {
+  top: calc(8cqh); left: 50%; transform: translateX(-50%);
+  width: clamp(96px, 18cqw, 170px);
+}
+
+/* ===== Botón ===== */
+.retry-wrap{
+  width: min(96vw, 920px);
+  display:flex; justify-content:center;
+  margin-top: clamp(8px, 2vh, 14px);
+  visibility:hidden; pointer-events:none;
+  min-height:56px;
+}
+.retry-wrap.show{ visibility:visible; pointer-events:auto; }
+
+.btn-retry{
+  appearance:none; border:0; cursor:pointer;
+  display:inline-flex; align-items:center; justify-content:center;
+  gap:8px;
+  padding: clamp(10px, 1.8vh, 14px) clamp(14px, 3.2vw, 20px);
+  border-radius:14px;
+  font-weight:900; font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  font-size: clamp(.95rem, 2.2vw, 1.05rem);
+  min-width: clamp(180px, 44cqw, 260px);
+  background: linear-gradient(135deg, #6d28d9, #2563eb);
+  color:#fff; text-decoration:none;
+  box-shadow: 0 14px 28px rgba(37, 99, 235, .28), 0 4px 10px rgba(0,0,0,.20);
+  transition: transform .06s, box-shadow .2s, filter .2s;
+}
+.btn-retry:hover{ filter:brightness(1.04); box-shadow:0 18px 36px rgba(37,99,235,.32), 0 6px 14px rgba(0,0,0,.22); }
+.btn-retry:active{ transform: translateY(1px); }
+
+/* ===== Animación ===== */
+@keyframes animarDino{ from{background-position-x:-84px;} to{background-position-x:-252px;} }
+
+/* ===== Ajustes por orientación ===== */
+@media (orientation: portrait){
+  .contenedor{
+    width: 96vw;
+    max-height: 52svh;              /* un poco menos alto para dejar espacio al botón */
+  }
+  .logo-izq, .logo-der, .logo-mid{ padding:6px 10px; }
+}
+
+@media (orientation: landscape){
+  .contenedor{
+    width: min(96vw, 920px);
+    max-height: 70svh;              /* en horizontal cabe más alto */
+  }
+}
